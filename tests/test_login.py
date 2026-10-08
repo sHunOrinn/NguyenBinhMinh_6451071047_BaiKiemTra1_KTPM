@@ -411,3 +411,26 @@ def test_tc19_chuoi_qua_dai(driver):
     page = LoginPage(driver).open()
     page.attempt_login("a" * 500, "b" * 500)
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+
+# test 20
+@pytest.mark.tc(
+    id='TC20',
+    group='Validate – tiêu cực',
+    title='Ký tự đặc biệt / chuỗi kiểu SQL injection không qua được đăng nhập',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên đăng nhập: ' OR '1'='1' --\n"
+        "4. Nhập mật khẩu: ' OR '1'='1' --\n"
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data="Chuỗi: ' OR '1'='1' --",
+    expected='Không đăng nhập được, không hiện lỗi máy chủ',
+)
+def test_tc20_ky_tu_dac_biet_sqli(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("' OR '1'='1' --", "' OR '1'='1' --")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+    assert "server error" not in driver.page_source.lower()

@@ -212,7 +212,26 @@ def test_tc10_thoi_gian_tai_trang(driver):
     assert elapsed < 10, f"Trang tải mất {elapsed:.1f}s (ngưỡng 10s)"
 
 # test 11
-
+@pytest.mark.tc(
+    id='TC11',
+    group='Validate – tiêu cực',
+    title='Để trống cả tên đăng nhập và mật khẩu',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập: (để trống)\n'
+        '4. Nhập mật khẩu: (để trống)\n'
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data='Cả hai ô để trống',
+    expected='Không đăng nhập được, vẫn ở trang đăng nhập và còn form đăng nhập',
+)
+def test_tc11_de_trong_ca_hai(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("", "")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"
 # test 12
 
 # test 13

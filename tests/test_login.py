@@ -342,3 +342,28 @@ def test_tc16_sai_tai_khoan_dung_mat_khau(driver):
     page = LoginPage(driver).open()
     page.attempt_login(config.UTC_USER + "_x9", config.UTC_PASS)
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+
+# test 17
+@pytest.mark.tc(
+    id='TC17',
+    group='Validate – tiêu cực',
+    title='Mật khẩu phân biệt chữ hoa/thường',
+    priority='Trung bình',
+    precondition='Chrome đã mở, có Internet; đã khai báo UTC_USER/UTC_PASS (tài khoản thử nghiệm) trong file .env.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập: (tài khoản hợp lệ)\n'
+        '4. Nhập mật khẩu: (mật khẩu hợp lệ đảo hoa/thường)\n'
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data='Tài khoản hợp lệ lấy từ file .env; mật khẩu đảo hoa/thường (swapcase)',
+    expected='Không đăng nhập được, vẫn ở trang đăng nhập và còn form đăng nhập',
+)
+@requires_credentials
+def test_tc17_mat_khau_phan_biet_hoa_thuong(driver):
+    if config.UTC_PASS.swapcase() == config.UTC_PASS:
+        pytest.skip("Mật khẩu không có chữ cái nên không thể đảo hoa/thường")
+    page = LoginPage(driver).open()
+    page.attempt_login(config.UTC_USER, config.UTC_PASS.swapcase())
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"

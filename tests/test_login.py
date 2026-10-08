@@ -525,3 +525,27 @@ def test_tc24_dang_nhap_bang_phim_enter(driver):
     page.submit_with_enter()
     assert HomePage(driver).is_logged_in(), "Nhấn Enter không đăng nhập được"
 
+# test 25
+@pytest.mark.tc(
+    id='TC25',
+    group='Đăng nhập – tích cực',
+    title="Đăng nhập thành công khi tick 'Giữ tôi luôn đăng nhập'",
+    priority='Trung bình',
+    precondition='Chrome đã mở, có Internet; đã khai báo UTC_USER/UTC_PASS (tài khoản thử nghiệm) trong file .env.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Tick ô 'Giữ tôi luôn đăng nhập'\n"
+        '4. Nhập tên đăng nhập và mật khẩu hợp lệ\n'
+        "5. Bấm 'Đăng nhập'"
+    ),
+    data="Tài khoản hợp lệ lấy từ file .env; có tick 'Giữ tôi luôn đăng nhập'",
+    expected='Ô được tick và đăng nhập thành công',
+)
+@requires_credentials
+def test_tc25_dang_nhap_giu_toi_luon_dang_nhap(driver):
+    page = LoginPage(driver).open()
+    page.toggle_remember()
+    assert page.is_remember_checked()
+    home = page.login_as(config.UTC_USER, config.UTC_PASS)
+    assert home.is_logged_in()

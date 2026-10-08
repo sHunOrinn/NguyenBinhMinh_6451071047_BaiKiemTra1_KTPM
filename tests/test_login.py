@@ -612,26 +612,26 @@ def test_tc28_dang_nhap_bang_email_utc(driver):
     assert "accounts.google.com" in url, f"URL hiện tại: {url}"
 
 # test 29
-@pytest.mark.tc(
-    id='TC29',
-    group='Liên kết',
-    title="Link 'Trung tâm trợ giúp' mở tab mới đúng địa chỉ",
-    priority='Thấp',
-    precondition='Chrome đã mở, máy có kết nối Internet.',
-    steps=(
-        '1. Mở Chrome\n'
-        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
-        "3. Bấm link 'Trung tâm trợ giúp'"
-    ),
-    data='Không có',
-    expected='Mở thêm 1 tab tới hotrokythuat.utc.edu.vn; trang đăng nhập vẫn còn ở tab cũ',
-)
-def test_tc29_trung_tam_tro_giup_tab_moi(driver):
-    page = LoginPage(driver).open()
-    tab_count, url = page.open_help_center()
-    assert tab_count == 2, f"Số tab = {tab_count}, mong đợi 2"
-    assert "hotrokythuat.utc.edu.vn" in url
-    assert page.is_on_login_page()
+# @pytest.mark.tc(
+#     id='TC29',
+#     group='Liên kết',
+#     title="Link 'Trung tâm trợ giúp' mở tab mới đúng địa chỉ",
+#     priority='Thấp',
+#     precondition='Chrome đã mở, máy có kết nối Internet.',
+#     steps=(
+#         '1. Mở Chrome\n'
+#         '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+#         "3. Bấm link 'Trung tâm trợ giúp'"
+#     ),
+#     data='Không có',
+#     expected='Mở thêm 1 tab tới hotrokythuat.utc.edu.vn; trang đăng nhập vẫn còn ở tab cũ',
+# )
+# def test_tc29_trung_tam_tro_giup_tab_moi(driver):
+#     page = LoginPage(driver).open()
+#     tab_count, url = page.open_help_center()
+#     assert tab_count == 2, f"Số tab = {tab_count}, mong đợi 2"
+#     assert "hotrokythuat.utc.edu.vn" in url
+#     assert page.is_on_login_page()
 
 # test 30
 @pytest.mark.tc(

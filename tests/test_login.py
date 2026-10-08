@@ -676,3 +676,26 @@ def test_tc31_khong_lo_thong_tin_tren_url(driver):
     url = page.get_url()
     assert "tc31_user" not in url
     assert "Tc31_Pass" not in url
+
+# test 32
+@pytest.mark.tc(
+    id='TC32',
+    group='Bảo mật',
+    title='Ô mật khẩu được làm trống sau khi đăng nhập thất bại',
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên 'tc32_user', mật khẩu 'Sai@Pass123'\n"
+        "4. Bấm 'Đăng nhập'\n"
+        '5. Xem ô Mật khẩu'
+    ),
+    data='Tên: tc32_user; Mật khẩu: Sai@Pass123',
+    expected='Ô mật khẩu trống, không giữ lại mật khẩu vừa nhập',
+)
+def test_tc32_xoa_mat_khau_sau_khi_that_bai(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("tc32_user", "Sai@Pass123")
+    assert page.login_rejected()
+    assert page.get_password_value() == "", "Mật khẩu vẫn còn trong ô sau khi thất bại"

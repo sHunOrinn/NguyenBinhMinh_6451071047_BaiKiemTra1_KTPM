@@ -500,3 +500,28 @@ def test_tc22_tieng_viet_ky_tu_la(driver):
 def test_tc23_dang_nhap_thanh_cong(driver):
     home = LoginPage(driver).open().login_as(config.UTC_USER, config.UTC_PASS)
     assert home.is_logged_in(), "Đăng nhập không thành công"
+
+# test 24
+@pytest.mark.tc(
+    id='TC24',
+    group='Đăng nhập – tích cực',
+    title='Đăng nhập thành công bằng phím Enter',
+    priority='Trung bình',
+    precondition='Chrome đã mở, có Internet; đã khai báo UTC_USER/UTC_PASS (tài khoản thử nghiệm) trong file .env.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập và mật khẩu hợp lệ\n'
+        '4. Đặt con trỏ ở ô Mật khẩu rồi nhấn Enter'
+    ),
+    data='Tài khoản hợp lệ lấy từ file .env',
+    expected='Form được gửi đi và đăng nhập thành công',
+)
+@requires_credentials
+def test_tc24_dang_nhap_bang_phim_enter(driver):
+    page = LoginPage(driver).open()
+    page.enter_username(config.UTC_USER)
+    page.enter_password(config.UTC_PASS)
+    page.submit_with_enter()
+    assert HomePage(driver).is_logged_in(), "Nhấn Enter không đăng nhập được"
+

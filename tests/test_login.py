@@ -89,3 +89,23 @@ def test_tc04_o_mat_khau_che_ky_tu(driver):
     page.enter_password("Abc@12345")
     assert page.get_password_type() == "password"
     assert page.get_password_value() == "Abc@12345"
+
+# test 05
+@pytest.mark.tc(
+    id='TC05',
+    group='Giao diện',
+    title="Nút 'Đăng nhập' hiển thị đúng nhãn và bấm được",
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Kiểm tra nút Đăng nhập'
+    ),
+    data='Không có',
+    expected="Nút có nhãn 'Đăng nhập' và ở trạng thái enabled",
+)
+def test_tc05_nut_dang_nhap(driver):
+    page = LoginPage(driver).open()
+    assert "dang nhap" in strip_accents(page.get_login_button_label()).lower()
+    assert page.is_login_button_enabled()

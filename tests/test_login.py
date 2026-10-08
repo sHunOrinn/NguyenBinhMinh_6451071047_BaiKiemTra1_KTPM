@@ -652,3 +652,27 @@ def test_tc30_link_y_kien_phan_hoi(driver):
     href = LoginPage(driver).open().get_feedback_href()
     assert href.startswith("mailto:")
     assert "hotrokythuat@utc.edu.vn" in href
+
+# test 31
+@pytest.mark.tc(
+    id='TC31',
+    group='Bảo mật',
+    title='Thông tin đăng nhập không xuất hiện trên URL sau khi gửi form',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên đăng nhập 'tc31_user', mật khẩu 'Tc31_Pass!'\n"
+        "4. Bấm 'Đăng nhập'\n"
+        '5. Xem URL'
+    ),
+    data='Tên: tc31_user; Mật khẩu: Tc31_Pass!',
+    expected='URL không chứa tên đăng nhập hay mật khẩu (form dùng POST)',
+)
+def test_tc31_khong_lo_thong_tin_tren_url(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("tc31_user", "Tc31_Pass!")
+    url = page.get_url()
+    assert "tc31_user" not in url
+    assert "Tc31_Pass" not in url

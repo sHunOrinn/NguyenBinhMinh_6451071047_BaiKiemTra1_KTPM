@@ -457,3 +457,25 @@ def test_tc21_chen_script_xss(driver):
     page.attempt_login("<script>alert('xss')</script>", "Abc@12345")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
     assert page.last_alert_text != "xss", "Mã script đã bị thực thi!"
+
+# test 22
+@pytest.mark.tc(
+    id='TC22',
+    group='Validate – tiêu cực',
+    title='Nhập tiếng Việt có dấu và ký tự lạ',
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập: Nguyễn Văn Ạ ★\n'
+        '4. Nhập mật khẩu: Mật@khẩu★123\n'
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data='Tên: Nguyễn Văn Ạ ★; Mật khẩu: Mật@khẩu★123',
+    expected='Không đăng nhập được, trang không lỗi',
+)
+def test_tc22_tieng_viet_ky_tu_la(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("Nguyễn Văn Ạ ★", "Mật@khẩu★123")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"

@@ -173,7 +173,23 @@ def test_tc08_phim_tab_chuyen_o(driver):
     page.press_tab()
     assert page.focused_field_name() == "userpwd"
 # test 09
-
+@pytest.mark.tc(
+    id='TC09',
+    group='Giao diện',
+    title='Giao diện điện thoại (375x812): vẫn thấy form đăng nhập',
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome, thu cửa sổ về 375x812\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login'
+    ),
+    data='Kích thước: 375x812',
+    expected='Ô tên đăng nhập, ô mật khẩu và nút Đăng nhập vẫn hiển thị',
+)
+def test_tc09_giao_dien_mobile(driver):
+    driver.set_window_size(375, 812)
+    page = LoginPage(driver).open()
+    assert page.core_form_visible()
 # test 10
 
 # test 11

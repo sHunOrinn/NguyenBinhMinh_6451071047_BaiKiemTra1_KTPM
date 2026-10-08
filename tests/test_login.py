@@ -434,3 +434,26 @@ def test_tc20_ky_tu_dac_biet_sqli(driver):
     page.attempt_login("' OR '1'='1' --", "' OR '1'='1' --")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
     assert "server error" not in driver.page_source.lower()
+
+# test 21
+@pytest.mark.tc(
+    id='TC21',
+    group='Validate – tiêu cực',
+    title='Chèn thẻ <script> vào ô nhập không bị thực thi',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên đăng nhập: <script>alert('xss')</script>\n"
+        '4. Nhập mật khẩu: Abc@12345\n'
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data="Chuỗi: <script>alert('xss')</script>",
+    expected="Script không chạy (không có alert 'xss'), vẫn ở trang đăng nhập",
+)
+def test_tc21_chen_script_xss(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("<script>alert('xss')</script>", "Abc@12345")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+    assert page.last_alert_text != "xss", "Mã script đã bị thực thi!"

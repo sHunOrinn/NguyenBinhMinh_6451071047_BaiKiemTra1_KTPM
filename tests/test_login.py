@@ -367,3 +367,26 @@ def test_tc17_mat_khau_phan_biet_hoa_thuong(driver):
     page = LoginPage(driver).open()
     page.attempt_login(config.UTC_USER, config.UTC_PASS.swapcase())
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+
+# test 18
+@pytest.mark.tc(
+    id='TC18',
+    group='Validate – tiêu cực',
+    title='Chỉ nhập khoảng trắng vào cả hai ô',
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên đăng nhập: '   '\n"
+        "4. Nhập mật khẩu: '   '\n"
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data='3 dấu cách ở mỗi ô',
+    expected='Không đăng nhập được, vẫn ở trang đăng nhập và còn form đăng nhập',
+)
+def test_tc18_chi_khoang_trang(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("   ", "   ")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+

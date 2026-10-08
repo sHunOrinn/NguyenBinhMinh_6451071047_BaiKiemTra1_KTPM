@@ -254,4 +254,23 @@ def test_tc12_de_trong_ten_dang_nhap(driver):
     page.attempt_login("", "Abc@12345")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
 # test 13
-
+@pytest.mark.tc(
+    id='TC13',
+    group='Validate – tiêu cực',
+    title='Có tên đăng nhập, để trống mật khẩu',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập: sinhvien_tc13\n'
+        '4. Nhập mật khẩu: (để trống)\n'
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data='Tên đăng nhập: sinhvien_tc13',
+    expected='Không đăng nhập được, vẫn ở trang đăng nhập và còn form đăng nhập',
+)
+def test_tc13_de_trong_mat_khau(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("sinhvien_tc13", "")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"

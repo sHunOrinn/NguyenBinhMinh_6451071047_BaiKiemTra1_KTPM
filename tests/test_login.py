@@ -109,3 +109,36 @@ def test_tc05_nut_dang_nhap(driver):
     page = LoginPage(driver).open()
     assert "dang nhap" in strip_accents(page.get_login_button_label()).lower()
     assert page.is_login_button_enabled()
+
+# test 06
+@pytest.mark.tc(
+    id='TC06',
+    group='Giao diện',
+    title="Ô 'Giữ tôi luôn đăng nhập' mặc định chưa được tick",
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Quan sát ô 'Giữ tôi luôn đăng nhập'"
+    ),
+    data='Không có',
+    expected='Ô tick ở trạng thái chưa chọn',
+)
+def test_tc06_checkbox_mac_dinh(driver):
+    page = LoginPage(driver).open()
+    assert not page.is_remember_checked()
+# test 07
+
+# test 08
+
+# test 09
+
+# test 10
+
+# test 11
+
+# test 12
+
+# test 13
+

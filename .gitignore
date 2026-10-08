@@ -1,0 +1,15 @@
+# Moi truong ao & cache
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# BAO MAT: khong bao gio commit tai khoan/mat khau that
+.env
+
+# San pham sinh ra khi chay test
+screenshots/*
+!screenshots/.gitkeep
+reports/*
+!reports/.gitkeep

@@ -296,3 +296,26 @@ def test_tc14_tai_khoan_khong_ton_tai(driver):
     page = LoginPage(driver).open()
     page.attempt_login("khong_ton_tai_tc14", "Sai@Pass123")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+
+# test 15
+@pytest.mark.tc(
+    id='TC15',
+    group='Validate – tiêu cực',
+    title='Đúng tên đăng nhập, sai mật khẩu',
+    priority='Cao',
+    precondition='Chrome đã mở, có Internet; đã khai báo UTC_USER/UTC_PASS (tài khoản thử nghiệm) trong file .env.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập: (tài khoản hợp lệ)\n'
+        "4. Nhập mật khẩu: (mật khẩu hợp lệ + '_sai')\n"
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data="Tài khoản hợp lệ lấy từ file .env; mật khẩu thêm hậu tố '_sai'",
+    expected='Không đăng nhập được, vẫn ở trang đăng nhập và còn form đăng nhập',
+)
+@requires_credentials
+def test_tc15_dung_tai_khoan_sai_mat_khau(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login(config.UTC_USER, config.UTC_PASS + "_sai")
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"

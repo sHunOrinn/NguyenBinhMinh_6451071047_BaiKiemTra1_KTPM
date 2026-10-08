@@ -68,3 +68,24 @@ def test_tc03_o_ten_dang_nhap(driver):
     assert page.get_username_type() == "text"
     assert page.get_username_value() == ""
     assert page.get_username_placeholder().strip() != ""
+
+# test 04
+@pytest.mark.tc(
+    id='TC04',
+    group='Giao diện',
+    title='Ô mật khẩu che ký tự khi nhập',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập 'Abc@12345' vào ô Mật khẩu"
+    ),
+    data='Mật khẩu: Abc@12345',
+    expected='Ô có type=password (hiển thị dạng chấm) nhưng vẫn nhận đủ dữ liệu',
+)
+def test_tc04_o_mat_khau_che_ky_tu(driver):
+    page = LoginPage(driver).open()
+    page.enter_password("Abc@12345")
+    assert page.get_password_type() == "password"
+    assert page.get_password_value() == "Abc@12345"

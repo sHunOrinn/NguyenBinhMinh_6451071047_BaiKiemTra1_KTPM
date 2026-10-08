@@ -549,3 +549,22 @@ def test_tc25_dang_nhap_giu_toi_luon_dang_nhap(driver):
     assert page.is_remember_checked()
     home = page.login_as(config.UTC_USER, config.UTC_PASS)
     assert home.is_logged_in()
+
+# test 26
+@pytest.mark.tc(
+    id='TC26',
+    group='Đăng nhập – tích cực',
+    title='Truy cập trang chủ khi chưa đăng nhập bị đưa về trang đăng nhập',
+    priority='Cao',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome (chưa đăng nhập)\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/'
+    ),
+    data='Không có',
+    expected='Hệ thống hiển thị form đăng nhập, không cho xem nội dung bên trong',
+)
+def test_tc26_truy_cap_trang_chu_khi_chua_dang_nhap(driver):
+    driver.get(config.BASE_URL + "/")
+    page = LoginPage(driver)
+    assert page.wait_until_login_form(), "Chưa đăng nhập nhưng không thấy form đăng nhập"

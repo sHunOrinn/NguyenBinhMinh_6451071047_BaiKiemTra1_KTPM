@@ -151,7 +151,27 @@ def test_tc07_checkbox_tick_bo_tick(driver):
     page.toggle_remember()
     assert not page.is_remember_checked(), "Sau lần bấm 2 phải bỏ tick"
 # test 08
-
+@pytest.mark.tc(
+    id='TC08',
+    group='Giao diện',
+    title='Phím Tab chuyển focus từ ô tên đăng nhập sang ô mật khẩu',
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Bấm vào ô Tên đăng nhập\n'
+        '4. Nhấn phím Tab'
+    ),
+    data='Không có',
+    expected='Focus chuyển sang ô Mật khẩu',
+)
+def test_tc08_phim_tab_chuyen_o(driver):
+    page = LoginPage(driver).open()
+    page.focus_username()
+    assert page.focused_field_name() == "username"
+    page.press_tab()
+    assert page.focused_field_name() == "userpwd"
 # test 09
 
 # test 10

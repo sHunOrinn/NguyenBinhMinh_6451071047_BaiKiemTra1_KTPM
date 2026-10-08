@@ -591,3 +591,22 @@ def test_tc27_link_quen_mat_khau(driver):
     assert forgot.is_loaded(), "Không chuyển tới /Login/GetPass"
     back = forgot.go_back()
     assert back.is_on_login_page()
+
+# test 28
+@pytest.mark.tc(
+    id='TC28',
+    group='Liên kết',
+    title="Nút 'Đăng nhập bằng e-mail UTC' chuyển sang trang Google",
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Bấm nút 'Đăng nhập bằng e-mail UTC' (không nhập gì trên trang Google)"
+    ),
+    data='Không có',
+    expected='Chuyển tới accounts.google.com',
+)
+def test_tc28_dang_nhap_bang_email_utc(driver):
+    url = LoginPage(driver).open().click_google_login()
+    assert "accounts.google.com" in url, f"URL hiện tại: {url}"

@@ -632,3 +632,23 @@ def test_tc29_trung_tam_tro_giup_tab_moi(driver):
     assert tab_count == 2, f"Số tab = {tab_count}, mong đợi 2"
     assert "hotrokythuat.utc.edu.vn" in url
     assert page.is_on_login_page()
+
+# test 30
+@pytest.mark.tc(
+    id='TC30',
+    group='Liên kết',
+    title="Link 'Ý kiến phản hồi' trỏ tới e-mail hỗ trợ",
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Kiểm tra địa chỉ của link 'Ý kiến phản hồi'"
+    ),
+    data='Không có',
+    expected='Link dạng mailto: tới hotrokythuat@utc.edu.vn',
+)
+def test_tc30_link_y_kien_phan_hoi(driver):
+    href = LoginPage(driver).open().get_feedback_href()
+    assert href.startswith("mailto:")
+    assert "hotrokythuat@utc.edu.vn" in href

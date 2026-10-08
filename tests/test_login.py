@@ -568,3 +568,26 @@ def test_tc26_truy_cap_trang_chu_khi_chua_dang_nhap(driver):
     driver.get(config.BASE_URL + "/")
     page = LoginPage(driver)
     assert page.wait_until_login_form(), "Chưa đăng nhập nhưng không thấy form đăng nhập"
+
+# test 27
+@pytest.mark.tc(
+    id='TC27',
+    group='Liên kết',
+    title="Link 'Bạn quên mật khẩu đăng nhập?' mở đúng trang rồi quay lại được",
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Bấm link 'Bạn quên mật khẩu đăng nhập?'\n"
+        '4. Bấm nút Back của trình duyệt'
+    ),
+    data='Không có',
+    expected='Chuyển tới /Login/GetPass; Back quay về trang đăng nhập',
+)
+def test_tc27_link_quen_mat_khau(driver):
+    page = LoginPage(driver).open()
+    forgot = page.click_forgot_password()
+    assert forgot.is_loaded(), "Không chuyển tới /Login/GetPass"
+    back = forgot.go_back()
+    assert back.is_on_login_page()

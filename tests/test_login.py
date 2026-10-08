@@ -390,3 +390,24 @@ def test_tc18_chi_khoang_trang(driver):
     page.attempt_login("   ", "   ")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
 
+# test 19
+@pytest.mark.tc(
+    id='TC19',
+    group='Validate – tiêu cực',
+    title='Nhập chuỗi rất dài (500 ký tự)',
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Nhập tên đăng nhập: 'a' x 500\n"
+        "4. Nhập mật khẩu: 'b' x 500\n"
+        "5. Bấm nút 'Đăng nhập'"
+    ),
+    data="500 ký tự 'a' và 500 ký tự 'b'",
+    expected='Không đăng nhập được, trang không lỗi/treo, vẫn ở trang đăng nhập',
+)
+def test_tc19_chuoi_qua_dai(driver):
+    page = LoginPage(driver).open()
+    page.attempt_login("a" * 500, "b" * 500)
+    assert page.login_rejected(), "Phải ở lại trang đăng nhập"

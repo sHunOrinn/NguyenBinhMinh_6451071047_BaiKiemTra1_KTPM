@@ -191,6 +191,25 @@ def test_tc09_giao_dien_mobile(driver):
     page = LoginPage(driver).open()
     assert page.core_form_visible()
 # test 10
+@pytest.mark.tc(
+    id='TC10',
+    group='Giao diện',
+    title='Trang đăng nhập tải xong trong 10 giây',
+    priority='Thấp',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Đo thời gian từ lúc truy cập đến khi thấy ô tên đăng nhập'
+    ),
+    data='Ngưỡng: 10 giây',
+    expected='Thời gian tải < 10 giây',
+)
+def test_tc10_thoi_gian_tai_trang(driver):
+    start = time.perf_counter()
+    LoginPage(driver).open()
+    elapsed = time.perf_counter() - start
+    assert elapsed < 10, f"Trang tải mất {elapsed:.1f}s (ngưỡng 10s)"
 
 # test 11
 

@@ -129,7 +129,27 @@ def test_tc06_checkbox_mac_dinh(driver):
     page = LoginPage(driver).open()
     assert not page.is_remember_checked()
 # test 07
-
+@pytest.mark.tc(
+    id='TC07',
+    group='Giao diện',
+    title="Bấm ô 'Giữ tôi luôn đăng nhập' để tick rồi bỏ tick",
+    priority='Trung bình',
+    precondition='Chrome đã mở, máy có kết nối Internet.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        "3. Bấm vào ô 'Giữ tôi luôn đăng nhập'\n"
+        '4. Bấm thêm lần nữa'
+    ),
+    data='Không có',
+    expected='Lần 1: được tick. Lần 2: bỏ tick',
+)
+def test_tc07_checkbox_tick_bo_tick(driver):
+    page = LoginPage(driver).open()
+    page.toggle_remember()
+    assert page.is_remember_checked(), "Sau lần bấm 1 phải được tick"
+    page.toggle_remember()
+    assert not page.is_remember_checked(), "Sau lần bấm 2 phải bỏ tick"
 # test 08
 
 # test 09

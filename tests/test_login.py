@@ -479,3 +479,24 @@ def test_tc22_tieng_viet_ky_tu_la(driver):
     page = LoginPage(driver).open()
     page.attempt_login("Nguyễn Văn Ạ ★", "Mật@khẩu★123")
     assert page.login_rejected(), "Phải ở lại trang đăng nhập"
+
+# test 23
+@pytest.mark.tc(
+    id='TC23',
+    group='Đăng nhập – tích cực',
+    title='Đăng nhập thành công bằng tài khoản hợp lệ',
+    priority='Cao',
+    precondition='Chrome đã mở, có Internet; đã khai báo UTC_USER/UTC_PASS (tài khoản thử nghiệm) trong file .env.',
+    steps=(
+        '1. Mở Chrome\n'
+        '2. Truy cập https://vanphongdientu.utc.edu.vn/Login\n'
+        '3. Nhập tên đăng nhập và mật khẩu hợp lệ\n'
+        "4. Bấm nút 'Đăng nhập'"
+    ),
+    data='Tài khoản hợp lệ lấy từ file .env',
+    expected='Rời khỏi trang /Login và không còn form đăng nhập',
+)
+@requires_credentials
+def test_tc23_dang_nhap_thanh_cong(driver):
+    home = LoginPage(driver).open().login_as(config.UTC_USER, config.UTC_PASS)
+    assert home.is_logged_in(), "Đăng nhập không thành công"
